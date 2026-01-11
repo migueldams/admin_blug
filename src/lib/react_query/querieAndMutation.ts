@@ -1,6 +1,6 @@
 import {useQuery , useMutation ,useQueryClient} from '@tanstack/react-query';
 import { QUERY_KEYS } from './queryKeys';
-import { createArticles, createBlogs, createMarkets, getRecentArticles, getRecentBlogs, getRecentMarkets, signInWithGoogle, signOutAccount } from '../appwrite/api';
+import { createArticles, createBlogs, createFormations, createMarkets, getFormations, getRecentArticles, getRecentBlogs, getRecentMarkets, signInWithGoogle, signOutAccount } from '../appwrite/api';
 
 export const useSignInWithGoogle = () => {
     return useMutation({
@@ -35,6 +35,15 @@ export const useGetRecentMarkets = () => {
         }
     )
 }
+export const useGetFormations = () => {
+    return useQuery(
+        {
+            queryKey: [QUERY_KEYS.GET_RECENT_EVENTS],
+            queryFn: getFormations,
+            
+        }
+    )
+}
 export const useSignOutAccount = () => {
     return useMutation({
         mutationFn: signOutAccount
@@ -46,7 +55,7 @@ export const useCreateArticle = () => {
     return useMutation({
         mutationFn:  (newPost:any) => createArticles(newPost),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [QUERY_KEYS.GET_RECENT_POSTS]});
+            queryClient.invalidateQueries({queryKey: [QUERY_KEYS.GET_RECENT_ARTICLES]});
         }}
     )
 }
@@ -54,9 +63,19 @@ export const useCreateArticle = () => {
 export const useCreatBlogs = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn:  (newPost:any) => createBlogs(newPost),
+        mutationFn:  ({newPost,onProgress}:any) => createBlogs(newPost, onProgress),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [QUERY_KEYS.GET_RECENT_POSTS]});
+            queryClient.invalidateQueries({queryKey: [QUERY_KEYS.GET_RECENT_BLOGS]});
+        }}
+    )
+}
+
+export const useCreateEvents = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn:  (newPost:any) => createFormations(newPost),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [QUERY_KEYS.GET_RECENT_EVENTS]});
         }}
     )
 }
@@ -66,7 +85,7 @@ export const useCreatMarkets = () => {
     return useMutation({
         mutationFn:  (newPost:any) => createMarkets(newPost),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [QUERY_KEYS.GET_RECENT_POSTS]});
+            queryClient.invalidateQueries({queryKey: [QUERY_KEYS.GET_RECENT_MARKETS]});
         }}
     )
 }

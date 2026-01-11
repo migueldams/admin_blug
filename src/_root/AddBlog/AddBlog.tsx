@@ -20,19 +20,21 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Button } from "@/components/ui/button"
-import FileUploader from '@/_root/AddPosts/FileUploader'
+import FileUploader from '@/_root/AddBlog/FileUploader'
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
 import { useNavigate } from "react-router-dom"
 import Loader from '@/components/shared/Loader'
 import logoPost from '@/assets/icons/add-post.svg'
-import { useCreateArticle } from '@/lib/react_query/querieAndMutation'
+import { useCreateArticle, useCreatBlogs } from '@/lib/react_query/querieAndMutation'
 
-function AddArticle({ post }: { post?: any }) {
+function AddBlog({ post }: { post?: any }) {
 
 
-  const { mutateAsync: createPosts, isPending: isPostCreate, isSuccess } = useCreateArticle()
+  const { mutateAsync: createPosts, isPending: isPostCreate, isSuccess } = useCreatBlogs()
   const navigate = useNavigate()
+  const [uploadProgress, setUploadProgress] = React.useState(0);
+  const [isUploading, setIsUploading] = React.useState(false);
 
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
@@ -44,9 +46,14 @@ function AddArticle({ post }: { post?: any }) {
   })
 
   async function onSubmit(data: z.infer<typeof PostValidation>) {
-
+    setIsUploading(true);
+    setUploadProgress(0);
     const formPost = { ...data }
-    const NewPost = await createPosts(formPost)
+    const NewPost = await createPosts({
+      formPost, onProgress: (progress) => {
+        setUploadProgress(progress);
+      }
+    })
 
     if (!NewPost) {
       toast.error('error on create post, try again.')
@@ -65,7 +72,7 @@ function AddArticle({ post }: { post?: any }) {
       <CardHeader className="w-full">
         <div className='flex  justify-start gap-4 items-center h-30'>
           <img src={logoPost} alt="" width={40} />
-          <p className='font-semibold text-3xl '>Create Article</p>
+          <p className='font-semibold text-3xl '>Create Blug</p>
         </div>
         <CardDescription className="text-xl">
           Help us improve by reporting bugs you encounter.
@@ -102,9 +109,13 @@ function AddArticle({ post }: { post?: any }) {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="form-rhf-demo-description" className="text-xl">
-                      Add Image Article
+                      Add content blug
                     </FieldLabel>
                     <FileUploader fieldChange={field.onChange} mediaUrl={post?.imageUrl} />
+                    <div
+                      className="bg-indigo-600 h-3 rounded-full transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    />
                     <FieldDescription>
                       Include steps to reproduce, expected behavior, and what
                       actually happened.
@@ -138,7 +149,7 @@ function AddArticle({ post }: { post?: any }) {
                   </Field>
                 )}
               />
-              
+
             </div>
           </FieldGroup>
         </form>
@@ -157,4 +168,4 @@ function AddArticle({ post }: { post?: any }) {
   )
 }
 
-export default AddArticle
+export default AddBlog

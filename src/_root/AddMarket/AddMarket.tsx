@@ -26,12 +26,12 @@ import { toast, Toaster } from "sonner"
 import { useNavigate } from "react-router-dom"
 import Loader from '@/components/shared/Loader'
 import logoPost from '@/assets/icons/add-post.svg'
-import { useCreateArticle } from '@/lib/react_query/querieAndMutation'
+import { useCreateArticle ,useCreatMarkets} from '@/lib/react_query/querieAndMutation'
 
-function AddArticle({ post }: { post?: any }) {
+function AddMarket({ post }: { post?: any }) {
 
 
-  const { mutateAsync: createPosts, isPending: isPostCreate, isSuccess } = useCreateArticle()
+  const { mutateAsync: createPosts, isPending: isPostCreate, isSuccess } = useCreatMarkets()
   const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof PostValidation>>({
@@ -65,7 +65,7 @@ function AddArticle({ post }: { post?: any }) {
       <CardHeader className="w-full">
         <div className='flex  justify-start gap-4 items-center h-30'>
           <img src={logoPost} alt="" width={40} />
-          <p className='font-semibold text-3xl '>Create Article</p>
+          <p className='font-semibold text-3xl '>Create Market</p>
         </div>
         <CardDescription className="text-xl">
           Help us improve by reporting bugs you encounter.
@@ -102,7 +102,7 @@ function AddArticle({ post }: { post?: any }) {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="form-rhf-demo-description" className="text-xl">
-                      Add Image Article
+                      Add Image Produit
                     </FieldLabel>
                     <FileUploader fieldChange={field.onChange} mediaUrl={post?.imageUrl} />
                     <FieldDescription>
@@ -157,4 +157,4 @@ function AddArticle({ post }: { post?: any }) {
   )
 }
 
-export default AddArticle
+export default AddMarket

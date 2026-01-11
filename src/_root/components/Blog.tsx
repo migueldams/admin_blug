@@ -4,10 +4,33 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { useGetRecentBlogs} from '@/lib/react_query/querieAndMutation';
 import Loader from '@/components/shared/Loader';
+import { useNavigate } from 'react-router-dom';
+import { appwriteConfig, databases, storage } from '@/lib/appwrite/config';
 
 function Blog() {
 
-    const { data: posts, isLoading: isPostLoading, isError: isErrorPosts } = useGetRecentBlogs();
+    const { data: posts, isLoading: isPostLoading, isError: isErrorPosts} = useGetRecentBlogs();
+    const navigate = useNavigate();
+    const handleAddPost = () => {
+        // Logic to navigate to AddArticle page
+        navigate('/layout/add-blog');
+    }
+
+    const handleDelete =  async (postId: string, imageId: string) => {
+            // Logic to delete a post
+             await storage.deleteFile({
+                bucketId: appwriteConfig.storageId,
+                fileId: imageId
+            })
+
+             await databases.deleteDocument({
+                databaseId: appwriteConfig.databasesId,
+                collectionId: appwriteConfig.tablePostsId,
+                documentId: postId,
+            });
+            console.log("Deleting post with ID:", postId);
+        }
+    
 
     if (isErrorPosts) {
         <div className='flex flex-col gap-8 justify-center items-center'>
@@ -31,7 +54,7 @@ function Blog() {
                                     </div>
                                 </div>
                                 <div className='w-1/5 flex flex-col items-center  gap-4'>
-                                    <button className='bg-gray-800 text-white'><MdDeleteOutline size={20} /></button>
+                                    <button onClick={() => handleDelete(post.$id, post.imageId)} className='bg-gray-800 text-white'><MdDeleteOutline size={20} /></button>
                                     <button className='bg-transparent text-white'><MdOutlineModeEdit size={20} /></button>
                                 </div>
                             </div>
@@ -39,7 +62,7 @@ function Blog() {
                     }
                 </div>
                 <div className='w-full h-10 flex justify-end'>
-                    <button className='bg-gray-600 p-2 rounded-sm flex items-center gap-2'>Publier <IoMdAdd /></button>
+                    <button onClick={handleAddPost} className='bg-gray-600 p-2 rounded-sm flex items-center gap-2'>Publier <IoMdAdd /></button>
                 </div>
             </div>
         </div>

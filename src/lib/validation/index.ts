@@ -9,6 +9,16 @@ export const SignInValidation = z.object({
 
 export const PostValidation = z.object({
   title: z.string().max(200),
-  file: z.custom<File[]>(),
+  file: z.array(z.instanceof(File)).min(1, "File is required"),
   excerpt: z.string().max(200),
+})
+
+export const EventsValidation = z.object({
+  title: z.string().max(200),
+  date: z.date(),
+  time: z.string().max(100),
+  location: z.string().max(200),
+  description: z.string().max(1000),
+  types: z.string().max(100),
+  status: z.string().max(100),
 })

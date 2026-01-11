@@ -11,7 +11,7 @@ function Home() {
   return (
     <div className='w-full lg:w-4/5 flex flex-col gap-20'>
         <Article />
-        <Oeuvre />
+        {/* <Oeuvre /> */}
         <Blog />
         <Market />
         <Formation />

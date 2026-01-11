@@ -12,6 +12,7 @@ export const QUERY_KEYS = {
   GET_INFINITE_POSTS : "getInfinitePosts",
   GET_RECENT_ARTICLES : "getRecentArticles",
   GET_RECENT_BLOGS : "getRecentBlogs",
+  GET_RECENT_EVENTS : "getRecentFormatons",
   GET_RECENT_MARKETS : "getRecentMarkets",
   GET_POST_BY_ID : "getPostById",
   GET_USER_POSTS : "getUserPosts",

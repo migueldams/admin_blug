@@ -1,28 +1,53 @@
 import React from 'react'
-import { MdDeleteOutline } from "react-icons/md";
+import { MdDeleteOutline, MdSignalWifiStatusbarNotConnected } from "react-icons/md";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
+import Loader from '@/components/shared/Loader';
+import { useGetRecentArticles } from '@/lib/react_query/querieAndMutation';
+
 
 function Oeuvre() {
-  
+  const { data: posts, isLoading: isPostLoading, isError: isErrorPosts } = useGetRecentArticles();
+  const navigate = useNavigate();
+
+  const handleAddPost = () => {
+    // Logic to navigate to AddArticle page
+    navigate('/layout/add-article');
+  }
+
+  if (isErrorPosts) {
+    <div className='flex flex-col gap-8 justify-center items-center'>
+      <MdSignalWifiStatusbarNotConnected size={100} />
+      <p>verify your network</p>
+    </div>
+  }
+
   return (
-    <div className='flex flex-col gap-8'>
-      <h2 className='font-semibold text-2xl'>Oeuvre</h2>
+    <div className='flex flex-col gap-4'>
+      <h2 className='font-semibold text-2xl'>Article</h2>
       <div className='w-full bg-gray-800 min-h-100 rounded-md p-4'>
-        <div className='w-full min-h-80 p-4 gap-4'>
-          <div className='w-full flex h-20'>
-            <div className='w-4/5 h-full flex flex-col gap-2 bg-gray-900 p-2 rounded-md'>
-              <p>1er Oeuvre</p>
-              <p>contenue</p>
-            </div>
-            <div className='w-1/5 flex flex-col items-center  gap-4'>
-              <button className='bg-gray-800 text-white'><MdDeleteOutline size={10} /></button>
-              <button className='bg-transparent text-white'><MdOutlineModeEdit size={10} /></button>
-            </div>
-          </div>
+        <div className='w-full min-h-80 grid grid-cols-4 p-4 gap-4'>
+          {isPostLoading && !posts ? <Loader /> :
+            posts.documents.map((post: any, index) => (
+              <div key={index} className='w-full flex h-40'>
+                <div className='w-4/5 hover:scale-105 hover:border-2 transition-all  duration-300'>
+                  <div key={post.$id} className='relative flex flex-col gap-2 bg-gray-900 p-2 rounded-md mb-2 h-40'>
+                    <p className='absolute font-semibold top-25 left-5'>{post.title}</p>
+                    <p className='absolute top-30 left-10'>{post.excerpt}</p>
+                    <img className='w-full h-full  rounded-2xl' src={post.imageUrl} alt="" />
+                  </div>
+                </div>
+                <div className='w-1/5 flex flex-col items-center  gap-4'>
+                  <button className='bg-gray-800 text-white'><MdDeleteOutline size={20} /></button>
+                  <button className='bg-transparent text-white'><MdOutlineModeEdit size={20} /></button>
+                </div>
+              </div>
+            ))
+          }
         </div>
         <div className='w-full h-10 flex justify-end'>
-          <button className='bg-gray-600 p-2 rounded-sm flex items-center gap-2'>Publier <IoMdAdd /></button>
+          <button onClick={handleAddPost} className='bg-gray-600 p-2 rounded-sm flex items-center gap-2'>Publier <IoMdAdd /></button>
         </div>
       </div>
     </div>

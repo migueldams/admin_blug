@@ -7,6 +7,7 @@ export const appwriteConfig ={
     databasesId: import.meta.env.VITE_APPWRITE_DATABASES_ID,
     tableUsersId: import.meta.env.VITE_APPWRITE_TABLE_USERS_ID,
     tablePostsId: import.meta.env.VITE_APPWRITE_TABLE_POSTS_ID,
+    tableEventsId: import.meta.env.VITE_APPWRITE_TABLE_EVENTS_ID,
 }
 
 console.log(appwriteConfig.endpoint);
