@@ -8,25 +8,21 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
+  CardHeader
 } from "@/components/ui/card"
-import { EventsValidation, PostValidation } from '@/lib/validation/index'
+import { EventsValidation} from '@/lib/validation/index'
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
 import { Button } from "@/components/ui/button"
-import FileUploader from '@/_root/AddPosts/FileUploader'
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
 import { useNavigate } from "react-router-dom"
 import Loader from '@/components/shared/Loader'
 import logoPost from '@/assets/icons/add-post.svg'
-import { useCreateArticle } from '@/lib/react_query/querieAndMutation'
 import {
   Popover,
   PopoverContent,
@@ -41,7 +37,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import loaders from '@/assets/icons/loader.svg'
 
 function Loader() {

@@ -2,7 +2,7 @@ import Bottombar from '@/components/shared/Bottombar'
 import LeftSidebar from '@/components/shared/LeftSidebar'
 import Topbar from '@/components/shared/Topbar'
 import { account } from '@/lib/appwrite/config'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
 

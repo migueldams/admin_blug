@@ -1,8 +1,5 @@
-import React from 'react'
-import { MdDeleteOutline } from "react-icons/md";
-import { MdOutlineModeEdit } from "react-icons/md";
+
 import Article from './components/Article';
-import Oeuvre from './components/Oeuvre';
 import Blog from './components/Blog';
 import Market from './components/Market';
 import Formation from './components/Formation';

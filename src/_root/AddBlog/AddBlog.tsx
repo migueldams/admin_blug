@@ -9,7 +9,6 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import { PostValidation } from '@/lib/validation/index'
 import {
@@ -26,7 +25,7 @@ import { toast, Toaster } from "sonner"
 import { useNavigate } from "react-router-dom"
 import Loader from '@/components/shared/Loader'
 import logoPost from '@/assets/icons/add-post.svg'
-import { useCreateArticle, useCreatBlogs } from '@/lib/react_query/querieAndMutation'
+import { useCreatBlogs } from '@/lib/react_query/querieAndMutation'
 
 function AddBlog({ post }: { post?: any }) {
 
@@ -50,7 +49,7 @@ function AddBlog({ post }: { post?: any }) {
     setUploadProgress(0);
     const formPost = { ...data }
     const NewPost = await createPosts({
-      formPost, onProgress: (progress) => {
+      formPost, onProgress: (progress:any) => {
         setUploadProgress(progress);
       }
     })

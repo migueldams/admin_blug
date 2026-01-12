@@ -1,15 +1,13 @@
-import React, { use, useEffect } from 'react'
+
 import { MdDeleteOutline } from "react-icons/md";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
-import { Calendar, MapPin, Clock, Users, ExternalLink, BookOpen } from 'lucide-react'
+import { Calendar, MapPin, Clock, Users, BookOpen } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card.jsx'
-import { Button } from '@/components/ui/button.jsx'
 import { useGetFormations } from '@/lib/react_query/querieAndMutation';
 import Loader from '@/components/shared/Loader';
 import { useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
 import { formatInstagramDate } from '@/lib/utils';
 import { appwriteConfig, databases } from '@/lib/appwrite/config';
 
@@ -49,10 +47,10 @@ function Formation() {
         <div className='flex flex-col gap-8'>
             <h2 className='font-semibold text-2xl'>Formation</h2>
             <div className='w-full bg-gray-800 min-h-100 rounded-md space-y-10 p-4'>
-                {isPendingEvents ? (<Loader />) :
+                {isPendingEvents && !upcomingEvents ? (<Loader />) :
                     <div>
                         {
-                            upcomingEvents.documents.map((event, index) => {
+                            upcomingEvents?.documents.map((event, index) => {
                                 const EventIcon = getEventIcon(event.type)
                                 return (
                                     <div className='w-full flex h-40'>

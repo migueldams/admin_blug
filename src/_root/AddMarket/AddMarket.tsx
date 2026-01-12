@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
@@ -9,7 +9,6 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import { PostValidation } from '@/lib/validation/index'
 import {
@@ -26,7 +25,7 @@ import { toast, Toaster } from "sonner"
 import { useNavigate } from "react-router-dom"
 import Loader from '@/components/shared/Loader'
 import logoPost from '@/assets/icons/add-post.svg'
-import { useCreateArticle ,useCreatMarkets} from '@/lib/react_query/querieAndMutation'
+import {useCreatMarkets} from '@/lib/react_query/querieAndMutation'
 
 function AddMarket({ post }: { post?: any }) {
 
