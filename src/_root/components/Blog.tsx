@@ -15,6 +15,7 @@ function Blog() {
         // Logic to navigate to AddArticle page
         navigate('/layout/add-blog');
     }
+    const documents = posts?.documents ?? [];
 
     const handleDelete =  async (postId: string, imageId: string) => {
             // Logic to delete a post
@@ -44,7 +45,7 @@ function Blog() {
             <div className='w-full bg-gray-800 min-h-100 rounded-md p-4'>
                 <div className='w-full min-h-80 grid grid-cols-4 p-4 gap-4'>
                     {isPostLoading && !posts ? <Loader /> :
-                        posts?.documents.map((post: any) => (
+                        documents.map((post: any) => (
                             <div className='w-full flex h-40'>
                                 <div className='w-4/5 hover:scale-105 hover:border-2 transition-all  duration-300'>
                                     <div key={post.$id} className='relative flex flex-col gap-2 bg-gray-900 p-2 rounded-md mb-2 h-40'>

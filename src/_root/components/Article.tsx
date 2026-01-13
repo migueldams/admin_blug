@@ -6,24 +6,27 @@ import { useGetRecentArticles } from '@/lib/react_query/querieAndMutation';
 import Loader from '@/components/shared/Loader';
 import { useNavigate } from 'react-router-dom';
 import { appwriteConfig, databases, storage } from '@/lib/appwrite/config';
+import { type Models } from "appwrite";
 
 function Article() {
     const { data: posts, isLoading: isPostLoading, isError: isErrorPosts } = useGetRecentArticles();
     const navigate = useNavigate();
+    const documents: Models.Document[] = posts?.documents ?? [];
+
 
     const handleAddPost = () => {
         // Logic to navigate to AddArticle page
         navigate('/layout/add-article');
     }
 
-    const handleDelete =  async (postId: string, imageId: number) => {
+    const handleDelete = async (postId: string, imageId: number) => {
         // Logic to delete a post
-         await storage.deleteFile({
+        await storage.deleteFile({
             bucketId: appwriteConfig.storageId,
             fileId: String(imageId)
         })
 
-         await databases.deleteDocument({
+        await databases.deleteDocument({
             databaseId: appwriteConfig.databasesId,
             collectionId: appwriteConfig.tablePostsId,
             documentId: postId,
@@ -44,7 +47,7 @@ function Article() {
             <div className='w-full bg-gray-800 min-h-100 rounded-md p-4'>
                 <div className='w-full min-h-80 grid grid-cols-4 p-4 gap-4'>
                     {isPostLoading && !posts ? <Loader /> :
-                        posts?.documents.map((post: any, index:any) => (
+                        documents.map((post: any, index: any) => (
                             <div key={index} className='w-full flex h-40'>
                                 <div className='w-4/5 hover:scale-105 hover:border-2 transition-all  duration-300'>
                                     <div key={post.$id} className='relative flex flex-col gap-2 bg-gray-900 p-2 rounded-md mb-2 h-40'>

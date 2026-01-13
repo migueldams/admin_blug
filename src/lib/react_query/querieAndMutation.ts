@@ -1,6 +1,8 @@
 import {useQuery , useMutation ,useQueryClient} from '@tanstack/react-query';
 import { QUERY_KEYS } from './queryKeys';
 import { createArticles, createBlogs, createFormations, createMarkets, getFormations, getRecentArticles, getRecentBlogs, getRecentMarkets, signInWithGoogle, signOutAccount } from '../appwrite/api';
+import {type Models } from "appwrite";
+
 
 export const useSignInWithGoogle = () => {
     return useMutation({
@@ -9,7 +11,7 @@ export const useSignInWithGoogle = () => {
 }
 
 export const useGetRecentArticles = () => {
-    return useQuery(
+    return useQuery<Models.DocumentList<Models.Document>, Error>(
         {
             queryKey: [QUERY_KEYS.GET_RECENT_ARTICLES],
             queryFn: getRecentArticles,
@@ -18,7 +20,7 @@ export const useGetRecentArticles = () => {
     )
 }
 export const useGetRecentBlogs = () => {
-    return useQuery(
+    return useQuery<Models.DocumentList<Models.Document>, Error>(
         {
             queryKey: [QUERY_KEYS.GET_RECENT_BLOGS],
             queryFn: getRecentBlogs,
@@ -27,7 +29,7 @@ export const useGetRecentBlogs = () => {
     )
 }
 export const useGetRecentMarkets = () => {
-    return useQuery(
+    return useQuery<Models.DocumentList<Models.Document>, Error>(
         {
             queryKey: [QUERY_KEYS.GET_RECENT_MARKETS],
             queryFn: getRecentMarkets,

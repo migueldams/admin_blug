@@ -3,12 +3,10 @@ import { FaGoogle } from "react-icons/fa";
 // import { GoogleLogin } from '@react-oauth/google';
 // import { googleLogout } from '@react-oauth/google';
 // import {jwtDecode} from "jwt-decode";
-import { useNavigate } from 'react-router-dom';
 import { useSignInWithGoogle } from '@/lib/react_query/querieAndMutation';
 
 function Login() {
-    const navigate = useNavigate()
-    const { mutateAsync: signInWithGoogle, isPending: isSigningIn } = useSignInWithGoogle()
+    const { mutateAsync: signInWithGoogle } = useSignInWithGoogle()
 
     async function handleGoogleLogin() {
         try {

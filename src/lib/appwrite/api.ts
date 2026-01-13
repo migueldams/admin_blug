@@ -1,6 +1,6 @@
-import { ID, OAuthProvider, Query } from "appwrite";
+import { ID, OAuthProvider, Query, type UploadProgress } from "appwrite";
 import { account, appwriteConfig, databases, storage } from "./config";
-
+import { type Models } from "appwrite";
 
 export const signInWithGoogle = async () => {
     try {
@@ -55,7 +55,9 @@ export async function saveUserToDB(
     }
 }
 
-export const getRecentArticles = async () => {
+export const getRecentArticles = async (): Promise<
+    Models.DocumentList<Models.Document>
+> => {
     try {
 
         const posts = await databases.listDocuments(
@@ -69,9 +71,7 @@ export const getRecentArticles = async () => {
         );
         console.log(posts)
 
-        if (!posts) {
-            return []
-        }
+
 
         return posts;
     } catch (error) {
@@ -99,9 +99,9 @@ export const createArticles = async (newPost: {
         });
 
         if (!fileUrl) throw new Error("Failed to get file URL");
-        
-        console.log(typeof(NewMedia.$id));
-        
+
+        console.log(typeof (NewMedia.$id));
+
         const postData = savePostToDB({
             title: newPost.title,
             excerpt: newPost.excerpt,
@@ -112,7 +112,7 @@ export const createArticles = async (newPost: {
 
 
 
-        
+
 
         if (!fileUrl) {
             await storage.deleteFile({
@@ -132,7 +132,9 @@ export const createArticles = async (newPost: {
 }
 
 
-export const getRecentBlogs = async () => {
+export const getRecentBlogs = async (): Promise<
+    Models.DocumentList<Models.Document>
+> => {
     try {
 
         const posts = await databases.listDocuments(
@@ -146,9 +148,6 @@ export const getRecentBlogs = async () => {
         );
         console.log(posts)
 
-        if (!posts) {
-            return []
-        }
 
         return posts;
     } catch (error) {
@@ -161,52 +160,53 @@ export const createBlogs = async (newPost: {
     title: string,
     excerpt: string,
     file: File[],
-}, onProgress?: (progress: number) => void ) => {
+}, onProgress: (progress: UploadProgress) => void) => {
+
     try {
         const NewMedia = await storage.createFile({
             bucketId: appwriteConfig.storageId,
             fileId: ID.unique(),
             file: newPost.file[0],
-            onProgress: (progress) => {
-                    console.log(progress.progress); // 0 → 100
-                }
+            onProgress: onProgress
         });
-    if (!NewMedia) throw new Error("File upload failed");
+        if (!NewMedia) throw new Error("File upload failed");
 
-    const fileUrl = await storage.getFileView({
-        bucketId: appwriteConfig.storageId,
-        fileId: NewMedia.$id
-    });
-
-    if (!fileUrl) throw new Error("Failed to get file URL");
-
-    const postData = savePostToDB({
-        title: newPost.title,
-        excerpt: newPost.excerpt,
-        imageUrl: fileUrl,
-        categorie: 'blog',
-        imageId: NewMedia.$id
-    });
-
-    if (!fileUrl) {
-        await storage.deleteFile({
+        const fileUrl = await storage.getFileView({
             bucketId: appwriteConfig.storageId,
-            fileId: NewMedia.$id,
+            fileId: NewMedia.$id
+        });
 
-        })
-        return null
+        if (!fileUrl) throw new Error("Failed to get file URL");
+
+        const postData = savePostToDB({
+            title: newPost.title,
+            excerpt: newPost.excerpt,
+            imageUrl: fileUrl,
+            categorie: 'blog',
+            imageId: NewMedia.$id
+        });
+
+        if (!fileUrl) {
+            await storage.deleteFile({
+                bucketId: appwriteConfig.storageId,
+                fileId: NewMedia.$id,
+
+            })
+            return null
+        }
+        return postData;
+
+
+    } catch (error) {
+        console.error("Error creating post:", error);
+        throw error;
     }
-    return postData;
-
-
-} catch (error) {
-    console.error("Error creating post:", error);
-    throw error;
-}
 
 }
 
-export const getRecentMarkets = async () => {
+export const getRecentMarkets = async (): Promise<
+    Models.DocumentList<Models.Document>
+> => {
     try {
 
         const posts = await databases.listDocuments(
@@ -220,9 +220,7 @@ export const getRecentMarkets = async () => {
         );
         console.log(posts)
 
-        if (!posts) {
-            return []
-        }
+
 
         return posts;
     } catch (error) {
