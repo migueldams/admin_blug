@@ -274,7 +274,9 @@ export const createMarkets = async (newPost: {
 
 }
 
-export const getFormations = async () => {
+export const getFormations = async (): Promise<
+  Models.DocumentList<Models.Document>
+> => {
     try {
 
         const posts = await databases.listDocuments(
@@ -288,9 +290,7 @@ export const getFormations = async () => {
         );
         console.log(posts)
 
-        if (!posts) {
-            return []
-        }
+        
 
         return posts;
     } catch (error) {

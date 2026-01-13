@@ -38,7 +38,7 @@ export const useGetRecentMarkets = () => {
     )
 }
 export const useGetFormations = () => {
-    return useQuery(
+    return useQuery<Models.DocumentList<Models.Document>, Error>(
         {
             queryKey: [QUERY_KEYS.GET_RECENT_EVENTS],
             queryFn: getFormations,

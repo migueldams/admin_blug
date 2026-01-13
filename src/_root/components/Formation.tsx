@@ -25,6 +25,7 @@ function Formation() {
         }
     }
 
+    const documents = upcomingEvents?.documents ?? [];
     const handleDelete =  async (postId: string) => {
            
     
@@ -50,7 +51,7 @@ function Formation() {
                 {isPendingEvents && !upcomingEvents ? (<Loader />) :
                     <div>
                         {
-                            upcomingEvents?.documents.map((event:any, index:any) => {
+                            documents.map((event:any, index:any) => {
                                 const EventIcon = getEventIcon(event.type)
                                 return (
                                     <div className='w-full flex h-40'>
