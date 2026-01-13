@@ -7,8 +7,8 @@ export const signInWithGoogle = async () => {
 
         const session = account.createOAuth2Session(
             OAuthProvider.Google,
-            "http://localhost:5173/layout",
-            "http://localhost:5173/"
+            "roaring-begonia-5eb511.netlify.app/layout",
+            "roaring-begonia-5eb511.netlify.app"
         );
 
 
