@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link, Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import  { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import imgLogout from "@/assets/icons/logout.svg"
 import imgprofil from '@/assets/icons/profile-placeholder.svg'
 import { useSignOutAccount } from '@/lib/react_query/querieAndMutation'
@@ -11,7 +11,7 @@ import { account } from '@/lib/appwrite/config'
 const LeftSidebar = () => {
     const location = useLocation()
     const [user, setUser] = useState<any>(null);
-    const { mutateAsync: signOutAccount, isSuccess } = useSignOutAccount()
+    const { mutateAsync: signOutAccount } = useSignOutAccount()
     const navigate = useNavigate()
     const sidebarLinks = [
         {

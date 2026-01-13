@@ -185,7 +185,7 @@ export const createBlogs = async (newPost: {
         excerpt: newPost.excerpt,
         imageUrl: fileUrl,
         categorie: 'blog',
-        imageId: Number(NewMedia.$id)
+        imageId: NewMedia.$id
     });
 
     if (!fileUrl) {
@@ -256,7 +256,7 @@ export const createMarkets = async (newPost: {
             excerpt: newPost.excerpt,
             imageUrl: fileUrl,
             categorie: 'market',
-            imageId: Number(NewMedia.$id)
+            imageId: NewMedia.$id
         });
 
         if (!fileUrl) {

@@ -33,7 +33,7 @@ function AddBlog({ post }: { post?: any }) {
   const { mutateAsync: createPosts, isPending: isPostCreate, isSuccess } = useCreatBlogs()
   const navigate = useNavigate()
   const [uploadProgress, setUploadProgress] = React.useState(0);
-  const [isUploading, setIsUploading] = React.useState(false);
+
 
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
@@ -45,7 +45,6 @@ function AddBlog({ post }: { post?: any }) {
   })
 
   async function onSubmit(data: z.infer<typeof PostValidation>) {
-    setIsUploading(true);
     setUploadProgress(0);
     const formPost = { ...data }
     const NewPost = await createPosts({
